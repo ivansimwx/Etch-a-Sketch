@@ -13,6 +13,7 @@ function inputSquare() {
 
 function createGrid() {
     const divSqDim = max_dim / row + "px";
+    let opacityLevel = 0;
 //create the necessary number of rows
 for (let i=0; i<row; i++) {
 //create 1 complete row
@@ -27,8 +28,19 @@ for (let i=0; i<row; i++) {
             rowSquare.style.width = divSqDim;
             rowSquare.style.height = divSqDim;
             console.log(divSqDim);
-            rowSquare.addEventListener("mouseover", ()=>rowSquare.style.backgroundColor = "blue"); //hover effect
-            rowSquare.addEventListener("mouseout", ()=>rowSquare.style.backgroundColor = "white"); //trailing effect
+            rowSquare.addEventListener("mouseover", function() {
+                rowSquare.style.backgroundColor = sqRandomColor(); //hover effect
+            })
+            rowSquare.addEventListener("mouseout", function(){
+                if (opacityLevel<100) {
+                    opacityLevel = opacityLevel+10;
+                }
+                rowSquare.style.backgroundColor = "black";
+                let opacityStr = opacityLevel+"%";
+                console.log(opacityStr);
+                rowSquare.style.opacity = opacityStr;
+            })
+
             rowDiv.appendChild(rowSquare); //append each square to the row
         }
     //append the entire row to container div
@@ -39,6 +51,13 @@ for (let i=0; i<row; i++) {
 function delGrid() {
     document.querySelectorAll(".row-class").forEach(e => e.remove());;
     document.querySelectorAll(".row-square").forEach(e => e.remove());;
+}
+
+function sqRandomColor() {
+    //0xFFFFFF is 16777215
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    const randomColorStr = "#"+ randomColor;
+    return randomColorStr;
 }
 
 //create button
